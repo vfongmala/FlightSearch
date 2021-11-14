@@ -7,6 +7,7 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.navigation.findNavController
 import com.vichita.flightsearch.R
+import com.vichita.flightsearch.constants.Constant
 import com.vichita.flightsearch.databinding.FragmentSearchBinding
 import com.vichita.flightsearch.views.data.SearchData
 
@@ -47,7 +48,7 @@ class SearchFragment: Fragment() {
             binding.searchView.returningEdt.text.toString()
         )
         val bundle = Bundle()
-        bundle.putParcelable("search_data", searchData)
+        bundle.putParcelable(Constant.SEARCH_DATA_KEY, searchData)
         if (isOnPhone) {
             view.findNavController().navigate(R.id.show_result_list, bundle)
         } else {

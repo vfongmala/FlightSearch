@@ -21,7 +21,7 @@ class FlightRepository @Inject constructor(private val api: FlightAPI) {
                     searchData.returnDate
                 )
                 emit(results)
-            }?: emit(listOf())
+            }?: error("SearchData is null")
         }.flowOn(Dispatchers.IO)
     }
 

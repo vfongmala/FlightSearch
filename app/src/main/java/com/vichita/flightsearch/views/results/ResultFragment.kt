@@ -6,6 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import com.vichita.flightsearch.constants.Constant
 import com.vichita.flightsearch.databinding.FragmentResultListBinding
 import com.vichita.flightsearch.views.data.SearchData
 import com.vichita.flightsearch.views.viewmodels.ResultViewModel
@@ -58,7 +59,7 @@ class ResultFragment : Fragment() {
 
     private fun fetchData() {
         searchJob?.cancel()
-        val data: SearchData? = arguments?.getParcelable("search_data")
+        val data: SearchData? = arguments?.getParcelable(Constant.SEARCH_DATA_KEY)
         if (data != null) {
             viewModel.setSearchData(data)
         }
