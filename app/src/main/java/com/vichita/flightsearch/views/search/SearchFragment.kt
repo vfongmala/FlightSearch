@@ -41,10 +41,10 @@ class SearchFragment: Fragment() {
 
     private fun navigateToResultList(isOnPhone: Boolean, view: View) {
         val searchData = SearchData(
-            binding.searchView.departureCodeEdt.toString(),
-            binding.searchView.arrivalCodeEdt.toString(),
-            binding.searchView.departingEdt.toString(),
-            binding.searchView.returningEdt.toString()
+            binding.searchView.departureCodeEdt.text.toString(),
+            binding.searchView.arrivalCodeEdt.text.toString(),
+            binding.searchView.departingEdt.text.toString(),
+            binding.searchView.returningEdt.text.toString()
         )
         val bundle = Bundle()
         bundle.putParcelable("search_data", searchData)
