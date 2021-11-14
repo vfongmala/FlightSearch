@@ -4,6 +4,7 @@
     android:layout_height="wrap_content"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tool="http://schemas.android.com/tools"
+    android:layout_margin="@dimen/card_margin"
     android:elevation="@dimen/card_elevation">
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -17,7 +18,7 @@
             android:layout_height="wrap_content"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            tool:src="@drawable/airline_icon"/>
+            android:src="@drawable/airline_icon"/>
 
         <TextView
             android:id="@+id/item_name"

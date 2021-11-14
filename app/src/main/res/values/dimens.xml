@@ -16,4 +16,5 @@
     <dimen name="item_inner_space">8dp</dimen>
 
     <dimen name="card_elevation">2dp</dimen>
+    <dimen name="card_margin">8dp</dimen>
 </resources>

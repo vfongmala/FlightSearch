@@ -21,8 +21,11 @@ class ResultListAdapter: RecyclerView.Adapter<ResultViewHolder>() {
     }
 
     override fun onBindViewHolder(holder: ResultViewHolder, position: Int) {
-        // bind datas
+        // bind data
         holder.itemNameView.text= data[position]
+        holder.itemOutboundView.text= data[position]
+        holder.itemInboundView.text= data[position]
+        holder.itemAmount.text= data[position]
     }
 
     override fun getItemCount(): Int {

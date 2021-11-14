@@ -7,6 +7,7 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.RecyclerView
 import com.vichita.flightsearch.databinding.FragmentResultListBinding
+import com.vichita.flightsearch.views.data.SearchData
 import com.vichita.flightsearch.views.results.ResultListAdapter
 
 class ResultFragment: Fragment() {
@@ -41,6 +42,11 @@ class ResultFragment: Fragment() {
     }
 
     private fun fetchData() {
-        adapter.setData(listOf("test", "test2"))
+        val data: SearchData? = arguments?.getParcelable("search_data")
+        if (data != null) {
+            adapter.setData(listOf("test", "test2"))
+        } else {
+            adapter.setData(listOf("no data"))
+        }
     }
 }
