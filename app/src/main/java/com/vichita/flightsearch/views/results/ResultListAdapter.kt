@@ -3,15 +3,16 @@ package com.vichita.flightsearch.views.results
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
+import com.vichita.flightsearch.entity.FlightInfo
 import com.vichita.flightsearch.databinding.ItemListResultBinding
 
 class ResultListAdapter: RecyclerView.Adapter<ResultViewHolder>() {
 
-    private var data: MutableList<String> = mutableListOf()
+    private var resultList: MutableList<FlightInfo> = mutableListOf()
 
-    fun setData(newData: List<String>) {
-        data.clear()
-        data.addAll(newData)
+    fun setData(newData: List<FlightInfo>) {
+        resultList.clear()
+        resultList.addAll(newData)
         notifyItemRangeChanged(0, newData.size)
     }
 
@@ -22,13 +23,14 @@ class ResultListAdapter: RecyclerView.Adapter<ResultViewHolder>() {
 
     override fun onBindViewHolder(holder: ResultViewHolder, position: Int) {
         // bind data
-        holder.itemNameView.text= data[position]
-        holder.itemOutboundView.text= data[position]
-        holder.itemInboundView.text= data[position]
-        holder.itemAmount.text= data[position]
+        val data = resultList[position]
+        holder.itemNameView.text = data.name
+        holder.itemOutboundView.text = data.outboundDuration
+        holder.itemInboundView.text = data.inboundDuration
+        holder.itemAmount.text = data.amount.toString()
     }
 
     override fun getItemCount(): Int {
-        return data.size
+        return resultList.size
     }
 }

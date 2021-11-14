@@ -9,7 +9,9 @@ import androidx.navigation.ui.navigateUp
 import androidx.navigation.ui.setupActionBarWithNavController
 import com.vichita.flightsearch.R
 import com.vichita.flightsearch.databinding.ActivityMainBinding
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class MainActivity: AppCompatActivity() {
 
     private lateinit var appBarConfig: AppBarConfiguration
