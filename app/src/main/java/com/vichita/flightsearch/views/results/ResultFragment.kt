@@ -6,20 +6,19 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.Observer
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.RecyclerView
 import com.vichita.flightsearch.databinding.FragmentResultListBinding
 import com.vichita.flightsearch.views.data.SearchData
 import com.vichita.flightsearch.views.viewmodels.ResultViewModel
 import dagger.hilt.android.AndroidEntryPoint
-import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.collect
-import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
-class ResultFragment: Fragment() {
+class ResultFragment : Fragment() {
     private var _binding: FragmentResultListBinding? = null
     private val binding get() = _binding!!
 
@@ -38,6 +37,7 @@ class ResultFragment: Fragment() {
 
         binding.resultList.adapter = adapter
 
+        bindViews()
         return binding.root
     }
 
@@ -51,14 +51,25 @@ class ResultFragment: Fragment() {
         _binding = null
     }
 
+    private fun bindViews() {
+        viewModel.isLoading.observe(viewLifecycleOwner, {
+            binding.resultLoading.visibility = if (it) View.VISIBLE else View.GONE
+        })
+
+//        viewModel.result.observe(viewLifecycleOwner, {
+//            adapter.setData(it)
+//        })
+    }
+
     private fun fetchData() {
         searchJob?.cancel()
         val data: SearchData? = arguments?.getParcelable("search_data")
         if (data != null) {
-            searchJob = lifecycleScope.launch {
-                viewModel.fetchData(data).collect {
-                    adapter.setData(it)
-                }
+            searchJob = viewLifecycleOwner.lifecycleScope.launch {
+                viewModel.fetchData(data)
+                    .collect {
+                        adapter.setData(it)
+                    }
             }
         }
     }
