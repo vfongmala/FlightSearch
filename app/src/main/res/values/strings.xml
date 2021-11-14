@@ -1,0 +1,10 @@
+<resources>
+    <string name="app_name">FlightSearch</string>
+    <string name="title_item_detail">Item Detail</string>
+
+    <string name="departure_airport_code">Departure Airport Code</string>
+    <string name="arrival_airport_code">Arrival Airport Code</string>
+    <string name="departing">Departing</string>
+    <string name="returning">Returning</string>
+    <string name="search">Search</string>
+</resources>

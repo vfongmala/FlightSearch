@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/result_list_nav_graph"
+    app:startDestination="@id/fragment_result">
+
+    <fragment
+        android:id="@+id/fragment_result"
+        android:name="com.vichita.flightsearch.views.results.ResultFragment"
+        tools:layout="@layout/fragment_result_list"
+        >
+        <argument
+            android:name="search_data"
+            app:argType="com.vichita.flightsearch.views.data.SearchData"
+            />
+    </fragment>
+
+</navigation>

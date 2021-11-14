@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="@dimen/search_screen_padding"
+    >
+
+    <com.google.android.material.textfield.TextInputEditText
+        android:id="@+id/departureCodeEdt"
+        style="@style/Theme.FlightSearch.SearchBox"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="@string/departure_airport_code"
+        app:layout_constraintTop_toTopOf="parent"
+        />
+
+    <com.google.android.material.textfield.TextInputEditText
+        android:id="@+id/arrivalCodeEdt"
+        style="@style/Theme.FlightSearch.SearchBox"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="@string/arrival_airport_code"
+        app:layout_constraintTop_toBottomOf="@id/departureCodeEdt"
+        />
+
+    <com.google.android.material.textfield.TextInputEditText
+        android:id="@+id/departingEdt"
+        style="@style/Theme.FlightSearch.SearchBox"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="@string/departing"
+        app:layout_constraintTop_toBottomOf="@id/arrivalCodeEdt"
+        />
+
+    <com.google.android.material.textfield.TextInputEditText
+        android:id="@+id/returningEdt"
+        style="@style/Theme.FlightSearch.SearchBox"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="@string/returning"
+        app:layout_constraintTop_toBottomOf="@id/departingEdt"
+        />
+
+    <Button
+        android:id="@+id/searchBtn"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/search_button_margin"
+        app:layout_constraintTop_toBottomOf="@id/returningEdt"
+        android:text="@string/search"
+        />
+
+</androidx.constraintlayout.widget.ConstraintLayout>
