@@ -5,16 +5,25 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
 import androidx.navigation.findNavController
+import com.google.android.material.datepicker.CalendarConstraints
+import com.google.android.material.datepicker.DateValidatorPointForward
+import com.google.android.material.datepicker.MaterialDatePicker
 import com.vichita.flightsearch.R
 import com.vichita.flightsearch.constants.Constant
 import com.vichita.flightsearch.databinding.FragmentSearchBinding
 import com.vichita.flightsearch.views.data.SearchData
+import com.vichita.flightsearch.views.viewmodels.SearchViewModel
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class SearchFragment: Fragment() {
 
     private var _binding: FragmentSearchBinding? = null
     private val binding get() = _binding!!
+
+    private val viewModel: SearchViewModel by viewModels()
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -22,8 +31,6 @@ class SearchFragment: Fragment() {
         savedInstanceState: Bundle?
     ): View {
         _binding = FragmentSearchBinding.inflate(inflater, container, false)
-
-
         return binding.root
     }
 
@@ -37,6 +44,22 @@ class SearchFragment: Fragment() {
             } else {
                 navigateToResultList(false, resultFragmentContainer)
             }
+        }
+
+        binding.searchView.departingEdt.setOnClickListener {
+            showDatePicker()
+        }
+
+        binding.searchView.returningEdt.setOnClickListener {
+            showDatePicker()
+        }
+
+        viewModel.departingDate.observe(viewLifecycleOwner) {
+            binding.searchView.departingEdt.setText(it)
+        }
+
+        viewModel.returningDate.observe(viewLifecycleOwner) {
+            binding.searchView.returningEdt.setText(it)
         }
     }
 
@@ -54,5 +77,23 @@ class SearchFragment: Fragment() {
         } else {
             view.findNavController().navigate(R.id.fragment_result, bundle)
         }
+    }
+
+    private fun showDatePicker() {
+        val calendarConstraints = CalendarConstraints.Builder()
+            .setValidator(DateValidatorPointForward.now())
+
+        val datePicker = MaterialDatePicker.Builder.dateRangePicker().apply {
+            setTitleText(R.string.departing)
+            setCalendarConstraints(calendarConstraints.build())
+            viewModel.selectedDates?.let {
+                setSelection(it)
+            }
+        }.build()
+
+        datePicker.addOnPositiveButtonClickListener {
+            viewModel.selectDates(it)
+        }
+        datePicker.show(parentFragmentManager, "departing")
     }
 }

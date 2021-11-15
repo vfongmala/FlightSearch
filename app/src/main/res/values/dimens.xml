@@ -11,6 +11,7 @@
     <dimen name="search_box_margin">16dp</dimen>
     <dimen name="search_button_margin">32dp</dimen>
     <dimen name="search_panel_width">200dp</dimen>
+    <dimen name="search_box_radius">8dp</dimen>
 
     <dimen name="item_padding">16dp</dimen>
     <dimen name="item_inner_space">8dp</dimen>

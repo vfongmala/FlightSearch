@@ -2,54 +2,90 @@
 <androidx.constraintlayout.widget.ConstraintLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:padding="@dimen/search_screen_padding"
     >
 
-    <com.google.android.material.textfield.TextInputEditText
-        android:id="@+id/departureCodeEdt"
-        style="@style/Theme.FlightSearch.SearchBox"
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/departureCodeInput"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        style="@style/Theme.FlightSearch.SearchBox"
         android:hint="@string/departure_airport_code"
         app:layout_constraintTop_toTopOf="parent"
-        />
+        >
 
-    <com.google.android.material.textfield.TextInputEditText
-        android:id="@+id/arrivalCodeEdt"
-        style="@style/Theme.FlightSearch.SearchBox"
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/departureCodeEdt"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/search_box_background"
+            />
+
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/arrivalCodeInput"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        style="@style/Theme.FlightSearch.SearchBox"
         android:hint="@string/arrival_airport_code"
-        app:layout_constraintTop_toBottomOf="@id/departureCodeEdt"
-        />
+        app:layout_constraintTop_toBottomOf="@id/departureCodeInput"
+        >
 
-    <com.google.android.material.textfield.TextInputEditText
-        android:id="@+id/departingEdt"
-        style="@style/Theme.FlightSearch.SearchBox"
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/arrivalCodeEdt"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/search_box_background"
+            />
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/departingInput"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        style="@style/Theme.FlightSearch.SearchBox"
         android:hint="@string/departing"
-        app:layout_constraintTop_toBottomOf="@id/arrivalCodeEdt"
-        />
+        app:layout_constraintTop_toBottomOf="@id/arrivalCodeInput"
+        >
 
-    <com.google.android.material.textfield.TextInputEditText
-        android:id="@+id/returningEdt"
-        style="@style/Theme.FlightSearch.SearchBox"
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/departingEdt"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/search_box_background"
+            android:focusable="false"
+            android:focusableInTouchMode="false"
+            />
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/returningInput"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        style="@style/Theme.FlightSearch.SearchBox"
         android:hint="@string/returning"
-        app:layout_constraintTop_toBottomOf="@id/departingEdt"
-        />
+        app:layout_constraintTop_toBottomOf="@id/departingInput"
+        >
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/returningEdt"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/search_box_background"
+            android:focusable="false"
+            android:focusableInTouchMode="false"
+            />
+    </com.google.android.material.textfield.TextInputLayout>
 
     <Button
         android:id="@+id/searchBtn"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="@dimen/search_button_margin"
-        app:layout_constraintTop_toBottomOf="@id/returningEdt"
+        app:layout_constraintTop_toBottomOf="@id/returningInput"
         android:text="@string/search"
         />
 
