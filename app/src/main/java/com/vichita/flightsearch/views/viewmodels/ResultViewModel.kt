@@ -22,22 +22,33 @@ class ResultViewModel @Inject constructor(
     private val _result = MutableLiveData<List<FlightInfo>>()
     val result: LiveData<List<FlightInfo>> = _result
 
-    var isLoading = MutableLiveData<Boolean>()
+    private val _isLoading = MutableLiveData<Boolean>()
+    val isLoading: LiveData<Boolean> = _isLoading
+
+
+    private val _showNoResult = MutableLiveData<Boolean>()
+    val showNoResult: LiveData<Boolean> = _showNoResult
 
     init {
-        isLoading.postValue(true)
+        _isLoading.postValue(true)
+        _showNoResult.postValue(false)
     }
 
     fun search(data: SearchData) {
         viewModelScope.launch(dispatcher) {
-            isLoading.postValue(true)
+            _isLoading.postValue(true)
             try {
                 repository.getSearchResult(data).collect {
-                    _result.postValue(it)
-                    isLoading.postValue(false)
+                    if (it.isNotEmpty()) {
+                        _result.postValue(it)
+                    } else {
+                        _showNoResult.postValue(true)
+                    }
+                    _isLoading.postValue(false)
                 }
             } catch (e: Exception) {
-                isLoading.postValue(false)
+                _isLoading.postValue(false)
+                _showNoResult.postValue(true)
                 e.printStackTrace()
             }
         }

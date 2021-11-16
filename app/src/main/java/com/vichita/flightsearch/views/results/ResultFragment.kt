@@ -50,6 +50,10 @@ class ResultFragment : Fragment() {
             binding.resultLoading.visibility = if (it) View.VISIBLE else View.GONE
         })
 
+        viewModel.showNoResult.observe(viewLifecycleOwner, {
+            binding.noResult.visibility = if (it) View.VISIBLE else View.GONE
+        })
+
         viewModel.result.observe(viewLifecycleOwner, {
             adapter.setData(it)
         })

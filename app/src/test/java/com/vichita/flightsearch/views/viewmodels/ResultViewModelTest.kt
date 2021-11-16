@@ -75,6 +75,38 @@ class ResultViewModelTest {
             viewModel.search(searchData)
 
             Assert.assertEquals(1, viewModel.result.value?.size)
+            Assert.assertEquals(false, viewModel.showNoResult.value)
+            Assert.assertEquals(false, viewModel.isLoading.value)
+        }
+    }
+
+    @Test
+    fun testSearchWithNullSearchData() {
+        testDispatcher.runBlockingTest {
+            val searchData = SearchData(
+                "BKK",
+                "MEL",
+                "2012-12-24T00:00:00+07:00",
+                "2012-12-24T00:00:00+07:00"
+            )
+
+            val resultList = listOf<FlightInfo>()
+
+
+            val viewModel = ResultViewModel(repository, testDispatcher)
+            val channel = Channel<List<FlightInfo>>()
+            val flow = channel.consumeAsFlow()
+
+            whenever(repository.getSearchResult(searchData)).thenReturn(flow)
+
+            launch {
+                channel.send(resultList)
+            }
+            viewModel.search(searchData)
+
+            Assert.assertEquals(null, viewModel.result.value)
+            Assert.assertEquals(true, viewModel.showNoResult.value)
+            Assert.assertEquals(false, viewModel.isLoading.value)
         }
     }
 }

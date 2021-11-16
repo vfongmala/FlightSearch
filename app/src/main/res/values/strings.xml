@@ -7,4 +7,6 @@
     <string name="departing">Departing</string>
     <string name="returning">Returning</string>
     <string name="search">Search</string>
+
+    <string name="no_result">Result not found.\nPlease try with another search criteria.</string>
 </resources>
