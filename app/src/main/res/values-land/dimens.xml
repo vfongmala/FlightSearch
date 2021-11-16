@@ -3,5 +3,5 @@
     <dimen name="fab_margin">48dp</dimen>
     <dimen name="container_horizontal_margin">48dp</dimen>
 
-    <dimen name="search_panel_width">300dp</dimen>
+    <dimen name="search_panel_width">400dp</dimen>
 </resources>
