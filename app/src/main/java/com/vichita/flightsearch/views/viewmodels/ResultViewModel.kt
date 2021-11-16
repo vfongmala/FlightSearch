@@ -1,45 +1,45 @@
 package com.vichita.flightsearch.views.viewmodels
 
-import androidx.lifecycle.*
-import com.vichita.flightsearch.constants.Constant
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import com.vichita.flightsearch.data.FlightRepository
 import com.vichita.flightsearch.entity.FlightInfo
 import com.vichita.flightsearch.views.data.SearchData
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.flow.*
+import kotlinx.coroutines.CoroutineDispatcher
+import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
 class ResultViewModel @Inject constructor(
     private val repository: FlightRepository,
-    private val savedStateHandle: SavedStateHandle
+    private val dispatcher: CoroutineDispatcher
 ): ViewModel() {
 
-    private val searchData: MutableStateFlow<SearchData?> =
-        MutableStateFlow(savedStateHandle.get(Constant.SEARCH_DATA_KEY))
-
-    var result: LiveData<List<FlightInfo>> = searchData.flatMapLatest {
-        isLoading.value = true
-        repository.getSearchResult(it)
-            .onCompletion {
-                isLoading.value = false
-            }.catch {
-                isLoading.value = false
-            }
-    }.asLiveData()
+    private val _result = MutableLiveData<List<FlightInfo>>()
+    val result: LiveData<List<FlightInfo>> = _result
 
     var isLoading = MutableLiveData<Boolean>()
 
     init {
-        viewModelScope.launch {
-            searchData.collect {
-                savedStateHandle.set(Constant.SEARCH_DATA_KEY, it)
-            }
-        }
+        isLoading.postValue(true)
     }
 
-    fun setSearchData(data: SearchData) {
-        searchData.value = data
+    fun search(data: SearchData) {
+        viewModelScope.launch(dispatcher) {
+            isLoading.postValue(true)
+            try {
+                repository.getSearchResult(data).collect {
+                    _result.postValue(it)
+                    isLoading.postValue(false)
+                }
+            } catch (e: Exception) {
+                isLoading.postValue(false)
+                e.printStackTrace()
+            }
+        }
     }
 }

@@ -11,7 +11,7 @@ import javax.inject.Inject
 
 class FlightRepository @Inject constructor(private val api: FlightAPI) {
 
-    fun getSearchResult(searchData: SearchData?): Flow<List<FlightInfo>> {
+    suspend fun getSearchResult(searchData: SearchData?): Flow<List<FlightInfo>> {
         return flow {
             searchData?.let {
                 val results = api.searchFlights(

@@ -11,14 +11,12 @@ import com.vichita.flightsearch.databinding.FragmentResultListBinding
 import com.vichita.flightsearch.views.data.SearchData
 import com.vichita.flightsearch.views.viewmodels.ResultViewModel
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.Job
 
 @AndroidEntryPoint
 class ResultFragment : Fragment() {
     private var _binding: FragmentResultListBinding? = null
     private val binding get() = _binding!!
 
-    private var searchJob: Job? = null
     private val viewModel: ResultViewModel by viewModels()
 
     private lateinit var adapter: ResultListAdapter
@@ -58,10 +56,9 @@ class ResultFragment : Fragment() {
     }
 
     private fun fetchData() {
-        searchJob?.cancel()
         val data: SearchData? = arguments?.getParcelable(Constant.SEARCH_DATA_KEY)
         if (data != null) {
-            viewModel.setSearchData(data)
+            viewModel.search(data)
         }
     }
 }
