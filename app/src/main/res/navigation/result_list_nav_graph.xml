@@ -18,16 +18,7 @@
     <fragment
         android:id="@+id/result_fragment"
         android:name="com.vichita.flightsearch.views.results.ResultFragment"
-        android:label="{flight_title}"
         tools:layout="@layout/fragment_result_list"
-        >
-        <argument
-            android:name="ResultList"
-            app:argType="com.vichita.flightsearch.views.data.SearchData"
-            />
-        <argument
-            android:name="flight_title"
-            app:argType="string"/>
-    </fragment>
+        />
 
 </navigation>

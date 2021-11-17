@@ -3,7 +3,7 @@ package com.vichita.flightsearch.entity
 import com.google.gson.annotations.SerializedName
 
 data class FlightInfo(
-    @SerializedName("AirLineLogoAddress") val logo: String,
+    @SerializedName("AirlineLogoAddress") val logo: String,
     @SerializedName("AirlineName") val name: String,
     @SerializedName("InboundFlightsDuration") val inboundDuration: String,
     @SerializedName("OutboundFlightsDuration") val outboundDuration: String,

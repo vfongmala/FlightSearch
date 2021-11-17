@@ -30,19 +30,17 @@ class SearchFragment: Fragment() {
         savedInstanceState: Bundle?
     ): View {
         _binding = FragmentSearchBinding.inflate(inflater, container, false)
+        bindViews()
+        bindViewModel(binding.root)
         return binding.root
     }
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-
+    private fun bindViews() {
         binding.searchView.searchBtn.setOnClickListener {
-            val resultFragmentContainer: View? = view.findViewById(R.id.search_result_nav_container)
-            if (resultFragmentContainer == null) {
-                navigateToResultList(true, view)
-            } else {
-                navigateToResultList(false, resultFragmentContainer)
-            }
+            viewModel.performSearch(
+                binding.searchView.departureCodeEdt.text.toString().trim(),
+                binding.searchView.arrivalCodeEdt.text.toString().trim()
+            )
         }
 
         binding.searchView.departingEdt.setOnClickListener {
@@ -52,7 +50,9 @@ class SearchFragment: Fragment() {
         binding.searchView.returningEdt.setOnClickListener {
             showDatePicker()
         }
+    }
 
+    private fun bindViewModel(view: View) {
         viewModel.departingDate.observe(viewLifecycleOwner) {
             binding.searchView.departingEdt.setText(it)
         }
@@ -60,27 +60,33 @@ class SearchFragment: Fragment() {
         viewModel.returningDate.observe(viewLifecycleOwner) {
             binding.searchView.returningEdt.setText(it)
         }
+
+        viewModel.searchValid.observe(viewLifecycleOwner) {
+            if (it) {
+                val resultFragmentContainer: View? = view.findViewById(R.id.search_result_nav_container)
+                if (resultFragmentContainer == null) {
+                    navigateToResultList(true, view)
+                } else {
+                    navigateToResultList(false, resultFragmentContainer)
+                }
+            }
+        }
     }
 
     private fun navigateToResultList(isOnPhone: Boolean, view: View) {
-        val searchData = viewModel.performSearch(
-            binding.searchView.departureCodeEdt.text.toString(),
-            binding.searchView.arrivalCodeEdt.text.toString()
-        )
+        val bundle = Bundle()
+        bundle.putString(Constant.SEARCH_DEPARTURE, viewModel.departure)
+        bundle.putString(Constant.SEARCH_ARRIVAL, viewModel.arrival)
+        bundle.putLong(Constant.SEARCH_DEPARTING, viewModel.selectedDates?.first?: 0L)
+        bundle.putLong(Constant.SEARCH_RETURNING, viewModel.selectedDates?.second?: 0L)
 
-        if (searchData != null) {
-            val bundle = Bundle()
-            bundle.putParcelable(Constant.SEARCH_DATA_KEY, searchData)
-
-            val title = String.format(getString(R.string.flight_result), searchData.departure, searchData.arrival)
-            bundle.putString(Constant.FLIGHT_TITLE_KEY, title)
-
-            if (isOnPhone) {
-                view.findNavController().navigate(R.id.show_result_list, bundle)
-            } else {
-                view.findNavController().navigate(R.id.fragment_result, bundle)
-            }
+        if (isOnPhone) {
+            view.findNavController().navigate(R.id.show_result_list, bundle)
+        } else {
+            view.findNavController().navigate(R.id.fragment_result, bundle)
         }
+
+        viewModel.resetSearch()
     }
 
     private fun showDatePicker() {

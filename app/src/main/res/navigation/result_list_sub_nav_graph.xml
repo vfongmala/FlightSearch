@@ -9,11 +9,6 @@
         android:id="@+id/fragment_result"
         android:name="com.vichita.flightsearch.views.results.ResultFragment"
         tools:layout="@layout/fragment_result_list"
-        >
-        <argument
-            android:name="search_data"
-            app:argType="com.vichita.flightsearch.views.data.SearchData"
-            />
-    </fragment>
+        />
 
 </navigation>

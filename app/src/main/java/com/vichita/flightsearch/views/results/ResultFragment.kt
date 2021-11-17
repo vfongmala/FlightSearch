@@ -8,7 +8,6 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import com.vichita.flightsearch.constants.Constant
 import com.vichita.flightsearch.databinding.FragmentResultListBinding
-import com.vichita.flightsearch.views.data.SearchData
 import com.vichita.flightsearch.views.viewmodels.ResultViewModel
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -27,17 +26,14 @@ class ResultFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View {
         _binding = FragmentResultListBinding.inflate(inflater, container, false)
-        adapter = ResultListAdapter()
 
+        adapter = ResultListAdapter()
         binding.resultList.adapter = adapter
 
-        bindViews()
-        return binding.root
-    }
+        bindViewModel()
+        setData()
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-        fetchData()
+        return binding.root
     }
 
     override fun onDestroyView() {
@@ -45,7 +41,17 @@ class ResultFragment : Fragment() {
         _binding = null
     }
 
-    private fun bindViews() {
+    private fun setData() {
+        viewModel.setData(
+            requireContext(),
+            arguments?.getString(Constant.SEARCH_DEPARTURE),
+            arguments?.getString(Constant.SEARCH_ARRIVAL),
+            arguments?.getLong(Constant.SEARCH_DEPARTING),
+            arguments?.getLong(Constant.SEARCH_RETURNING),
+        )
+    }
+
+    private fun bindViewModel() {
         viewModel.isLoading.observe(viewLifecycleOwner, {
             binding.resultLoading.visibility = if (it) View.VISIBLE else View.GONE
         })
@@ -57,12 +63,9 @@ class ResultFragment : Fragment() {
         viewModel.result.observe(viewLifecycleOwner, {
             adapter.setData(it)
         })
-    }
 
-    private fun fetchData() {
-        val data: SearchData? = arguments?.getParcelable(Constant.SEARCH_DATA_KEY)
-        if (data != null) {
-            viewModel.search(data)
+        viewModel.searchCriteria.observe(viewLifecycleOwner) {
+            binding.resultTitle.text = it
         }
     }
 }
