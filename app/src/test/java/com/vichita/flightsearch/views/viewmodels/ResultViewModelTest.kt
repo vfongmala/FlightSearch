@@ -44,6 +44,7 @@ class ResultViewModelTest {
     @Test
     fun testSearchWithSuccess() {
         testDispatcher.runBlockingTest {
+            // Arrange
             val flightInfo = FlightInfo(
                 "URL",
                 "AirlineName",
@@ -62,18 +63,21 @@ class ResultViewModelTest {
 
             val resultList = listOf(flightInfo)
 
-
             val viewModel = ResultViewModel(repository, testDispatcher)
             val channel = Channel<List<FlightInfo>>()
             val flow = channel.consumeAsFlow()
 
             whenever(repository.getSearchResult(searchData)).thenReturn(flow)
 
+            // Perform flow's emit event
             launch {
                 channel.send(resultList)
             }
+
+            // Act
             viewModel.search(searchData)
 
+            // Assert
             Assert.assertEquals(1, viewModel.result.value?.size)
             Assert.assertEquals(false, viewModel.showNoResult.value)
             Assert.assertEquals(false, viewModel.isLoading.value)

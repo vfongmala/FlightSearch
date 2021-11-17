@@ -11,6 +11,7 @@ import com.google.android.material.datepicker.CalendarConstraints
 import com.google.android.material.datepicker.DateValidatorPointForward
 import com.google.android.material.datepicker.MaterialDatePicker
 import com.vichita.flightsearch.R
+import com.vichita.flightsearch.constants.Constant
 import com.vichita.flightsearch.databinding.FragmentSearchBinding
 import com.vichita.flightsearch.views.viewmodels.SearchViewModel
 import dagger.hilt.android.AndroidEntryPoint
@@ -62,11 +63,15 @@ class SearchFragment: Fragment() {
     }
 
     private fun navigateToResultList(isOnPhone: Boolean, view: View) {
-        val bundle = viewModel.performSearch(
+        val searchData = viewModel.performSearch(
             binding.searchView.departureCodeEdt.text.toString(),
             binding.searchView.arrivalCodeEdt.text.toString()
         )
-        if (bundle != null) {
+
+        if (searchData != null) {
+            val bundle = Bundle()
+            bundle.putParcelable(Constant.SEARCH_DATA_KEY, searchData)
+
             if (isOnPhone) {
                 view.findNavController().navigate(R.id.show_result_list, bundle)
             } else {
