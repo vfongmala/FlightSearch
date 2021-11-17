@@ -10,4 +10,8 @@
 
     <string name="no_result">Result not found.\nPlease try with another search criteria.</string>
     <string name="flight_result">%1$s - %2$s : %3$s - %4$s</string>
+
+    <string name="outbound_duration">Outbound duration: %s</string>
+    <string name="inbound_duration">Inbound duration: %s</string>
+    <string name="amount">A$ %.2f</string>
 </resources>

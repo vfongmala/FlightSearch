@@ -2,6 +2,7 @@ package com.vichita.flightsearch.views.results
 
 import android.net.Uri
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
@@ -27,16 +28,25 @@ class ResultListAdapter: RecyclerView.Adapter<ResultViewHolder>() {
     override fun onBindViewHolder(holder: ResultViewHolder, position: Int) {
         // bind data
         val data = resultList[position]
-        val uri = Uri.parse(data.logo)
-        Glide.with(holder.itemView.context)
-            .asGif()
-            .load(uri)
-            .error(R.drawable.airline_icon)
-            .into(holder.itemIconView)
+        if (data.logo.isNotEmpty()) {
+            val uri = Uri.parse(data.logo)
+            Glide.with(holder.itemView.context)
+                .asGif()
+                .load(uri)
+                .into(holder.itemIconView)
+        } else {
+            holder.itemIconView.visibility = View.GONE
+        }
         holder.itemNameView.text = data.name
-        holder.itemOutboundView.text = data.outboundDuration
-        holder.itemInboundView.text = data.inboundDuration
-        holder.itemAmount.text = data.amount.toString()
+        holder.itemOutboundView.apply {
+            text = context.getString(R.string.outbound_duration, data.outboundDuration)
+        }
+        holder.itemInboundView.apply {
+            text = context.getString(R.string.inbound_duration, data.inboundDuration)
+        }
+        holder.itemAmount.apply {
+            text = context.getString(R.string.amount, data.amount)
+        }
     }
 
     override fun getItemCount(): Int {
