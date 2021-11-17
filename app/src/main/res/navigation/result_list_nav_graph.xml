@@ -8,7 +8,6 @@
     <fragment
         android:id="@+id/search_fragment"
         android:name="com.vichita.flightsearch.views.search.SearchFragment"
-        android:label="SearchFragment"
         tools:layout="@layout/fragment_search"
         >
         <action
@@ -19,13 +18,16 @@
     <fragment
         android:id="@+id/result_fragment"
         android:name="com.vichita.flightsearch.views.results.ResultFragment"
-        android:label="ResultFragment"
+        android:label="{flight_title}"
         tools:layout="@layout/fragment_result_list"
         >
         <argument
             android:name="ResultList"
             app:argType="com.vichita.flightsearch.views.data.SearchData"
             />
+        <argument
+            android:name="flight_title"
+            app:argType="string"/>
     </fragment>
 
 </navigation>

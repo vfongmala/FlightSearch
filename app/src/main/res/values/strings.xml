@@ -9,4 +9,5 @@
     <string name="search">Search</string>
 
     <string name="no_result">Result not found.\nPlease try with another search criteria.</string>
+    <string name="flight_result">%1$s - %2$s</string>
 </resources>

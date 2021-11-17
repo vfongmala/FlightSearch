@@ -23,7 +23,7 @@
                 android:id="@+id/departureCodeEdt"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:inputType="text"
+                android:inputType="textCapCharacters"
                 android:background="@drawable/search_box_background" />
 
         </com.google.android.material.textfield.TextInputLayout>
@@ -40,7 +40,7 @@
                 android:id="@+id/arrivalCodeEdt"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:inputType="text"
+                android:inputType="textCapCharacters"
                 android:background="@drawable/search_box_background" />
         </com.google.android.material.textfield.TextInputLayout>
 

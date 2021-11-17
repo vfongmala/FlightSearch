@@ -72,6 +72,9 @@ class SearchFragment: Fragment() {
             val bundle = Bundle()
             bundle.putParcelable(Constant.SEARCH_DATA_KEY, searchData)
 
+            val title = String.format(getString(R.string.flight_result), searchData.departure, searchData.arrival)
+            bundle.putString(Constant.FLIGHT_TITLE_KEY, title)
+
             if (isOnPhone) {
                 view.findNavController().navigate(R.id.show_result_list, bundle)
             } else {
