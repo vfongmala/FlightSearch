@@ -1,6 +1,7 @@
 package com.vichita.flightsearch.views.viewmodels
 
 import androidx.core.util.Pair
+import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -11,9 +12,14 @@ import javax.inject.Inject
 @HiltViewModel
 class SearchViewModel @Inject constructor(): ViewModel() {
 
-    var departingDate = MutableLiveData<String>()
-    var returningDate = MutableLiveData<String>()
-    var searchValid = MutableLiveData<Boolean>()
+    private var _departingDate = MutableLiveData<String>()
+    val departingDate: LiveData<String> = _departingDate
+
+    private var _returningDate = MutableLiveData<String>()
+    val returningDate: LiveData<String> = _returningDate
+
+    private var _searchValid = MutableLiveData<Boolean>()
+    val searchValid: LiveData<Boolean> = _searchValid
 
     var departure: String? = null
     var arrival: String? = null
@@ -27,8 +33,8 @@ class SearchViewModel @Inject constructor(): ViewModel() {
         val departing = Date(dateRange.first)
         val returning = Date(dateRange.second)
 
-        departingDate.postValue(displayingDateFormat.format(departing))
-        returningDate.postValue(displayingDateFormat.format(returning))
+        _departingDate.postValue(displayingDateFormat.format(departing))
+        _returningDate.postValue(displayingDateFormat.format(returning))
     }
 
     fun performSearch(
@@ -38,13 +44,13 @@ class SearchViewModel @Inject constructor(): ViewModel() {
         if (departureAirport.isNotEmpty() && arrivalAirport.isNotEmpty() && selectedDates != null) {
             departure = departureAirport
             arrival = arrivalAirport
-            searchValid.postValue(true)
+            _searchValid.postValue(true)
         } else {
-            searchValid.postValue(false)
+            _searchValid.postValue(false)
         }
     }
 
     fun resetSearch() {
-        searchValid.postValue(false)
+        _searchValid.postValue(false)
     }
 }

@@ -2,7 +2,6 @@ package com.vichita.flightsearch.views.viewmodels
 
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import androidx.core.util.Pair
-import com.vichita.flightsearch.views.data.SearchData
 import org.junit.Assert.*
 import org.junit.Rule
 import org.junit.Test
@@ -46,30 +45,19 @@ class SearchViewModelTest {
         viewModel.selectDates(Pair(departing.timeInMillis, returning.timeInMillis))
 
         // Act
-        val actualSearchData = viewModel.performSearch("BKK", "MEL")
+        viewModel.performSearch("BKK", "MEL")
 
-        // Assert
-        val expectedSearchData = SearchData(
-            "BKK", "MEL", "2021-12-01T00:00:00+07:00","2021-12-31T00:00:00+07:00"
-        )
-        assertNotNull(actualSearchData)
-        assertEquals(expectedSearchData, actualSearchData)
-        assertEquals(true, viewModel.departureAirportValid.value)
-        assertEquals(true, viewModel.arrivalAirportValid.value)
-        assertEquals(true, viewModel.departingValid.value)
-        assertEquals(true, viewModel.returningValid.value)
+        assertNotNull("BKK", viewModel.departure)
+        assertEquals("MEL", viewModel.arrival)
+        assertEquals(true, viewModel.searchValid.value)
     }
 
     @Test
     fun testPerformSearchWithoutSearchDetails() {
         // Act
-        val actualSearchData = viewModel.performSearch("", "")
+        viewModel.performSearch("", "")
 
         // Assert
-        assertNull(actualSearchData)
-        assertEquals(false, viewModel.departureAirportValid.value)
-        assertEquals(false, viewModel.arrivalAirportValid.value)
-        assertEquals(false, viewModel.departingValid.value)
-        assertEquals(false, viewModel.returningValid.value)
+        assertEquals(false, viewModel.searchValid.value)
     }
 }

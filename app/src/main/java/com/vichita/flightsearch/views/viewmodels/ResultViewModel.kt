@@ -11,7 +11,7 @@ import com.vichita.flightsearch.entity.FlightInfo
 import com.vichita.flightsearch.views.data.SearchData
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.CoroutineDispatcher
-import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
 import java.text.SimpleDateFormat
 import java.util.*
@@ -44,11 +44,6 @@ class ResultViewModel @Inject constructor(
     private val displayingDateFormat = SimpleDateFormat.getDateInstance(SimpleDateFormat.DATE_FIELD, Locale.ENGLISH)
     private val requestDateFormat = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ssXXX", Locale.ENGLISH)
 
-    init {
-        _isLoading.postValue(false)
-        _showNoResult.postValue(false)
-    }
-
     fun setData(context: Context, departure: String?, arrival: String?, departing: Long?, returning: Long?) {
         if (departure != null && arrival != null && departing != null && returning != null) {
             this.departure = departure
@@ -59,7 +54,7 @@ class ResultViewModel @Inject constructor(
             search()
             composeSearchCriteria(context)
         } else {
-            _showNoResult.postValue(false)
+            _showNoResult.postValue(true)
         }
     }
 
@@ -71,21 +66,23 @@ class ResultViewModel @Inject constructor(
             requestDateFormat.format(returning)
         )
         viewModelScope.launch(dispatcher) {
-            _isLoading.postValue(true)
-            try {
-                repository.getSearchResult(data).collect {
+            repository.getSearchResult(data)
+                .onStart {
+                    _isLoading.postValue(true)
+                }
+                .catch {
+                    _isLoading.postValue(false)
+                    _showNoResult.postValue(true)
+                }
+                .collect {
+                    _isLoading.postValue(false)
                     if (it.isNotEmpty()) {
                         _result.postValue(it)
+                        _showNoResult.postValue(false)
                     } else {
                         _showNoResult.postValue(true)
                     }
-                    _isLoading.postValue(false)
                 }
-            } catch (e: Exception) {
-                _isLoading.postValue(false)
-                _showNoResult.postValue(true)
-                e.printStackTrace()
-            }
         }
     }
 
